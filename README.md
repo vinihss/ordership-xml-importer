@@ -17,6 +17,7 @@ docker-compose up -d
  - php artisan test --env=testing
  - npm install
  - npm run dev
+ - php artisan queue:work
  
 
 *URL app:* http://localhost:8080
