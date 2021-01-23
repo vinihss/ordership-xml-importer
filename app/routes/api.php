@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ShipOrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UploadXmlController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,11 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::get('/ship-order', [ShipOrderController::class, 'index']);
-Route::get('/ship-order/{id}', [ShipOrderController::class, 'show']);
-Route::get('/person', [PersonController::class, 'index']);
-Route::get('/person/{id}', [PersonController::class, 'show']);
+Route::post("register", [UserController::class, "register"]);
+Route::post("login", [UserController::class, "login"]);
+Route::post('upload-xml', [UploadXmlController::class, 'post']);
+
+Route::middleware('auth:api')->group(function() {
+    Route::get('/ship-order', [ShipOrderController::class, 'index']);
+    Route::get('/ship-order/{id}', [ShipOrderController::class, 'show']);
+
+    Route::get('/person', [PersonController::class, 'index']);
+    Route::get('/person/{id}', [PersonController::class, 'show']);
+});

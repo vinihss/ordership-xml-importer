@@ -10,7 +10,8 @@ class ShipOrder extends Model
     use HasFactory;
 
     protected $fillable = ['order_id', 'person_id', 'name', 'address', 'city', 'country'];
-
+    protected $primaryKey = 'order_id';
+    public $incrementing = false;
 
     public function items()
     {

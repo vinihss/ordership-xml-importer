@@ -18,7 +18,6 @@ class ShipOrderFileProcessor
 
         $xml = XmlParser::extract($xml);
 
-
         DB::beginTransaction();
 
         try {
@@ -27,12 +26,17 @@ class ShipOrderFileProcessor
                 $person = People::where('person_id', '=', $orderData->orderperson)->first();
 
                 if (empty($person)) {
-                    return 'Order person not found';
+                     throw new \Exception('Order person not found');
+                }
+
+                $order = ShipOrder::where('order_id', '=', $orderData->orderid)->first();
+                if (!empty($order)) {
+                    throw new \Exception('Order already exists');
                 }
 
                 $order = ShipOrder::create([
                     'order_id' => $orderData->orderid,
-                    'person_id' => $person->id,
+                    'person_id' => $person->person_id,
                     'name' => $orderData->name,
                     'address' => $orderData->shipto->address,
                     'city' => $orderData->shipto->city,
@@ -41,16 +45,18 @@ class ShipOrderFileProcessor
 
                 foreach ($orderData->items->item as $item)
                     Item::create([
-                        'order_id' => $order->id,
+                        'order_id' => $order->order_id,
                         'title' => $item->title,
                         'note' => $item->note,
                         'quantity' => $item->quantity,
                         'price' => $item->price,
                     ]);
             }
+
+            DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
-            return $e->getMessage();
+            info($e->getMessage());
         }
     }
 
@@ -62,7 +68,7 @@ class ShipOrderFileProcessor
      */
     public function failed(Throwable $exception)
     {
-        info('falhou');
+        info('failure');
         // Send user notification of failure, etc...
     }
 }

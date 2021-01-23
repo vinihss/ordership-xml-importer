@@ -11,5 +11,5 @@ RUN apt-get update \
 
 # Install git
 RUN apt-get update \
-    && apt-get -y install git \
+    && apt-get -y install git nodejs npm\
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*

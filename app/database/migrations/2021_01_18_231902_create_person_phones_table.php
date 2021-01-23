@@ -15,7 +15,8 @@ class CreatePersonPhonesTable extends Migration
     {
         Schema::create('person_phones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')->constrained('people');
+            $table->unsignedBigInteger('person_id');
+            $table->foreign('person_id')->references('person_id')->on('people');
             $table->string('phone');
             $table->timestamps();
         });

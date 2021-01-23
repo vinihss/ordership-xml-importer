@@ -15,7 +15,8 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('ship_orders');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('order_id')->on('ship_orders');
             $table->string('title');
             $table->string('note');
             $table->integer('quantity');

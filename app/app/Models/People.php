@@ -10,6 +10,8 @@ class People extends Model
     use HasFactory;
 
     protected $fillable = ['person_id', 'name'];
+    protected $primaryKey = 'person_id';
+    public $incrementing = false;
 
     public function phones()
     {

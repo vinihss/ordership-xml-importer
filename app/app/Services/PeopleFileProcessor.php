@@ -21,10 +21,7 @@ class PeopleFileProcessor
         try {
 
             info('processed');
-            info($xml);
             $xml = XmlParser::extract($xml);
-
-
             foreach ($xml->getContent()->person as $personData) {
 
                 $person = People::create([
@@ -34,13 +31,15 @@ class PeopleFileProcessor
 
                 foreach ($personData->phones->phone as $phone) {
                     PersonPhone::create([
-                        'person_id' => $person->id,
+                        'person_id' => $person->person_id,
                         'phone' => $phone,
                     ]);
                 }
             }
 
             info('END processed');
+
+            DB::commit();
 
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -56,7 +55,7 @@ class PeopleFileProcessor
      */
     public function failed(Throwable $exception)
     {
-        info('falhou');
+        info('failure');
         // Send user notification of failure, etc...
     }
 }
