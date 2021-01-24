@@ -10,7 +10,12 @@ RUN apt-get update \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Install git
+RUN apt-get update \
+    && apt-get -y install git\
+    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+# Install Node
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash - \
     && apt-get update \
-    && apt-get -y install git nodejs npm\
+    && apt-get -y install nodejs \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
