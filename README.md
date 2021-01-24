@@ -6,6 +6,7 @@
 docker-compose up -d
 
 **init application**
+
 *Enter in container with the command:*
  - docker-compose exec php-fpm bash
 
