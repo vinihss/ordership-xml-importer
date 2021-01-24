@@ -66,6 +66,9 @@ Authorization: Bearer <Token>
 **GET Enpoints** 
 
 GET api/person -> list people
+
 GET api/person/{id} -> get a person information
+
 GET api/ship-order -> get all orders
+
 GET api/ship-order/{id} -> get a single order
